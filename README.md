@@ -1,17 +1,51 @@
-# ntba-rich-message
+<div align="center">  
+  
+# 📨 tg-rich-messages  
+  
+### Platform-independent TypeScript builder for Telegram Rich Messages  
+  
+*Bangun pesan Telegram yang kaya (Rich Messages) dengan HTML mode — type-safe, zero-dependency core, dan tree-shakeable.*  
+  
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)  
+![Telegram Bot API](https://img.shields.io/badge/Bot%20API-10.2-26A5E4?style=for-the-badge&logo=telegram&logoColor=white)  
+![Zero Dependencies](https://img.shields.io/badge/core-zero%20deps-success?style=for-the-badge)  
+![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)  
+  
+</div>  
+  
+```
+   ╭───╮     ╭───╮
+   │   ╰──┬──╯   │
+   ╰──┬─╮ │ ╭─┬──╯
+      │ ╰─┼─╯ │
+   ╭──┴─╮ │ ╭─┴──╮
+   │   ╭──┴──╮   │
+   ╰───╯     ╰───╯
 
-Platform-independent TypeScript builder for **Telegram Rich Messages** using HTML mode.
+```
 
-This library is compatible with **Telegram Bot API 10.2** and generates valid Telegram HTML for the [Rich Messages API](https://core.telegram.org/bots/api#rich-messages).
+  
+---  
+  
+## 📑 Table of Contents  
+  
+- [✨ Features](#-features)  
+- [🚀 Quick Start](#-quick-start)  
+- [🤖 Running the Bot](#-running-the-bot)  
+- [🧩 API Overview](#-api-overview)  
 
-* Fully typed
-* Zero dependencies
-* Tree-shakeable
-* Platform-independent
-* Built for TypeScript
-
+  
+---  
+ 
+ 
 ## Features
-
+- 🧱 **Builder API** — compose messages with expressive inline & block functions  
+- 🔒 **Type-safe** — fully typed, full autocomplete in editor  
+- 🪶 **Zero-dependency core** — lightweight and tree-shakeable  
+- 🌍 **Platform-independent** — runs anywhere TypeScript/JavaScript runs  
+- 📐 **Compatible  Telegram Bot API 10.2** — Rich Messages HTML mode and node-telegram-bot-api type support 
+- 🧪 **Tested** — equipped with test suite (vitest)  
+  
 ### Inline Formatting
 
 Supports:
@@ -72,26 +106,6 @@ Media blocks can optionally include:
 * Credits
 
 Media with captions and credits are rendered using `<figure>` and `<figcaption>`.
-
----
-
-## Installation
-
-```bash
-npm install ntba-rich-message
-```
-
-Or with other package managers:
-
-```bash
-pnpm add ntba-rich-message
-```
-
-```bash
-yarn add ntba-rich-message
-```
-
----
 
 ## Inline Builders
 
@@ -642,13 +656,24 @@ This allows modern bundlers to remove unused exports from the final bundle.
 ---
 
 ## Zero Dependencies
-
+---
 `ntba-rich-message` has **zero runtime dependencies**.
 
 It relies only on the JavaScript/TypeScript runtime and the Telegram Rich Messages format.
 
 ---
-
+## Quick Start
+```js
+import { doc, heading, paragraph, bold, link } from 'tg-rich-messages';  
+import { sendRich } from './ntba-adapter';  
+  
+const message = doc(  
+  heading(1, 'Hello world!'),  
+  paragraph(bold('Bold teks'), ' normal and ', link('a link', 'https://telegram.org')),  
+);  
+  
+await sendRich(process.env.TELEGRAM_BOT_TOKEN!, chatId, message);
+```
 ## API Overview
 
 ### Documents
@@ -753,5 +778,10 @@ See the `LICENSE` file for licensing information.
 * [Telegram Rich Messages](https://core.telegram.org/bots/api#rich-messages)
 
 ---
+## Author & Maintainer
+
+This fork is maintained by **@suganzi** — [t.me/suganzi](https://t.me/suganzi)
+
+Upstream project: [telegraf/telegraf](https://github.com/telegraf/telegraf) by The Telegraf Contributors.
 
 ⭐ **Like this project? Give it a star on GitHub — it helps others discover `ntba-rich-message`!**
