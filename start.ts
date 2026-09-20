@@ -1,6 +1,6 @@
 import 'dotenv/config';  
 import TelegramBot from 'node-telegram-bot-api';  
-import { runExample } from './example';  
+import { runExample, runPing, } from './example';  
   
 const token = process.env.TELEGRAM_BOT_TOKEN;  
   
@@ -34,5 +34,17 @@ bot.onText(/^\/help\b/, async (msg) => {
     console.error('Gagal merespons /help:', err);  
   }  
 });  
+
+bot.onText(/^\/ping\b/, async (msg) => {  
+  const chatId = msg.chat.id;  
+  try {  
+    const t0 = Date.now();  
+    const sent = await bot.sendMessage(chatId, '🏓 Pinging...');  
+    const latency = Date.now() - t0;  
+    // opsi A: hapus pesan awal lalu kirim Rich hasil  
+    await bot.deleteMessage(chatId, sent.message_id).catch(() => {});  
+    await runPing(token as string, chatId, latency);  
+  } catch (err) { console.error('Gagal merespons /ping:', err); }  
+});
   
 bot.on('polling_error', (err) => console.error('polling_error:', err));

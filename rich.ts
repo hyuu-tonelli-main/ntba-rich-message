@@ -244,6 +244,15 @@ export function blockquote(content: Inline | BlockContent, credit?: Inline): Blo
     { children },
   );
 }
+export function thinking(content: BlockContent | BlockContent[]): BlockNode {  
+  const children = Array.isArray(content) ? content : [content];  
+  return {  
+    [KIND]: 'block', // samakan dengan discriminator BlockNode builder lain  
+    render(): string {  
+      return `<tg-thinking>${renderChildren(children)}</tg-thinking>`;  
+    },  
+  };  
+}
 export function pullquote(text: Inline, credit?: Inline): BlockNode {
   return block(() => {
     const c = credit !== undefined ? `<cite>${renderInline(credit)}</cite>` : '';
@@ -370,7 +379,25 @@ function renderCell(cell: TableCellInput): string {
   const open = attrs.length ? `<${tag} ${attrs.join(' ')}>` : `<${tag}>`;
   return `${open}${c.content !== undefined ? renderInline(c.content) : ''}</${tag}>`;
 }
-
+// tg-button -------------------------------------------------------------------  
+export interface ButtonOptions {  
+  type?: string;    // mis. 'url' | 'callback'  
+  style?: string;   // mis. 'success', 'primary', dll  
+  url?: string;     // untuk type 'url'  
+  data?: string;    // callback data untuk type 'callback'  
+  align?: 'left' | 'center' | 'right';  
+}  
+export const tgButton = (t: Inline, options: ButtonOptions = {}) =>  
+  inline(() => {  
+    const attrs: string[] = [];  
+    if (options.type) attrs.push(`type="${escapeAttr(options.type)}"`);  
+    if (options.style) attrs.push(`style="${escapeAttr(options.style)}"`);  
+    if (options.url) attrs.push(`url="${escapeAttr(options.url)}"`);  
+    if (options.data) attrs.push(`data="${escapeAttr(options.data)}"`);  
+    if (options.align) attrs.push(`align="${escapeAttr(options.align)}"`);  
+    const open = attrs.length ? `<tg-button ${attrs.join(' ')}>` : '<tg-button>';  
+    return `${open}${renderInline(t)}</tg-button>`;  
+  });
 // details / map -------------------------------------------------------------
 export function details(
   summary: Inline,

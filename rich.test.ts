@@ -26,6 +26,7 @@ import {
   // block
   paragraph,
   p,
+  thinking,
   heading,
   pre,
   footer,
@@ -129,7 +130,12 @@ describe('block builders', () => {
     expect(paragraph('hi').render()).toBe('<p>hi</p>');
     expect(p).toBe(paragraph);
   });
-
+  it('thinking block', () => {  
+  expect(thinking('drafting…').render()).toBe('<tg-thinking>drafting…</tg-thinking>');  
+  expect(thinking([paragraph('a'), paragraph('b')]).render()).toBe(  
+    '<tg-thinking><p>a</p><p>b</p></tg-thinking>',  
+  );  
+  });
   it('heading valid + out of range', () => {
     expect(heading(1, 'h').render()).toBe('<h1>h</h1>');
     expect(heading(6, 'h').render()).toBe('<h6>h</h6>');
