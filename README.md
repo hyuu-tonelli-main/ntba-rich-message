@@ -1,10 +1,10 @@
 <div align="center">  
   
-# 📨 tg-rich-messages  
+# 📨 ntba-rich-messages  
   
 ### Platform-independent TypeScript builder for Telegram Rich Messages  
   
-*Bangun pesan Telegram yang kaya (Rich Messages) dengan HTML mode — type-safe, zero-dependency core, dan tree-shakeable.*  
+*Build rich Telegram messages with HTML mode and node-telegram-bot-api — type-safe, zero-dependency core, and tree-shakeable.*  
   
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)  
 ![Telegram Bot API](https://img.shields.io/badge/Bot%20API-10.2-26A5E4?style=for-the-badge&logo=telegram&logoColor=white)  
@@ -23,19 +23,6 @@
    ╰───╯     ╰───╯
 
 ```
-
-  
----  
-  
-## 📑 Table of Contents  
-  
-- [✨ Features](#-features)  
-- [🚀 Quick Start](#-quick-start)  
-- [🤖 Running the Bot](#-running-the-bot)  
-- [🧩 API Overview](#-api-overview)  
-
-  
----  
  
  
 ## Features
@@ -663,16 +650,63 @@ It relies only on the JavaScript/TypeScript runtime and the Telegram Rich Messag
 
 ---
 ## Quick Start
-```js
-import { doc, heading, paragraph, bold, link } from 'tg-rich-messages';  
-import { sendRich } from './ntba-adapter';  
+## `in files start.ts`
+```ts
+import { escapeText, pre, heading, table, marked, list, link, blockquote, thinking, pullquote, details, map, doc, fmtRich, bold, italic, spoiler, underline, strike, code, sub, sup, br, unsafeRawInline, email, phone, userMention, emoji, dateTime, anchorLink, reference, footer, divider, anchor, photo, video, animation, paragraph, audio, tgButton, voice, collage, slideshow } from './rich';  
+import type { RichDocument } from './rich';  
+import TelegramBot from 'node-telegram-bot-api';  
+import { runExample } from './example';  
   
-const message = doc(  
-  heading(1, 'Hello world!'),  
-  paragraph(bold('Bold teks'), ' normal and ', link('a link', 'https://telegram.org')),  
-);  
+const token = process.env.TELEGRAM_BOT_TOKEN;  
   
-await sendRich(process.env.TELEGRAM_BOT_TOKEN!, chatId, message);
+const bot = new TelegramBot(token as string, { polling: true });  
+bot.onText(/^\/start\b/, async (msg) => {  
+  const chatId = msg.chat.id;  
+  try {  
+    await runExample(token as string, chatId);  
+    console.log('Reply /start to chat', chatId);  
+  } catch (err) {  
+    console.error('err response /start:', err);  
+  }  
+});
+bot.on('polling_error', (err) => console.error('polling_error:', err));
+```
+## `example files`
+```ts
+
+export function buildExampleDocument(): RichDocument {  
+  return doc(  
+
+    heading(1, 'Report'),  
+    paragraph([  
+      bold('bold text'), ' and ', italic('italic text'), ' as well as ',  
+      link('link', 'https://telegram.org'),  
+    ]),  
+    paragraph([tgButton(bold('Telegram'), { type: 'url', style: 'success', url: 'https://web.telegram.org' })]),
+    list(['Item one', 'Item two', 'Item three']),  
+    table(  
+      [  
+        [{ content: 'Metric', header: true }, { content: 'Value', header: true }],  
+        [{ content: 'Speed' }, { content: bold('42'), align: 'right' }],  
+        [{ content: 'Status' }, { content: spoiler('ready'), align: 'center' }],  
+      ],  
+      { bordered: true, compact: true, caption: 'Key metrics' },  
+    ),  
+  ); 
+}
+
+
+export async function runExample(token: string, chatId: number | string) {  
+
+  const document = buildExampleDocument();  
+
+  const res = await sendRich(token, chatId, document);  
+
+  console.log('Message sent, message_id:', res?.result?.message_id);  
+
+  return res;  
+
+}
 ```
 ## API Overview
 
@@ -781,7 +815,5 @@ See the `LICENSE` file for licensing information.
 ## Author & Maintainer
 
 This fork is maintained by **@suganzi** — [t.me/suganzi](https://t.me/suganzi)
-
-Upstream project: [telegraf/telegraf](https://github.com/telegraf/telegraf) by The Telegraf Contributors.
 
 ⭐ **Like this project? Give it a star on GitHub — it helps others discover `ntba-rich-message`!**
