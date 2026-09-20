@@ -652,8 +652,7 @@ It relies only on the JavaScript/TypeScript runtime and the Telegram Rich Messag
 ## Quick Start
 ## `in files start.ts`
 ```ts
-import { escapeText, pre, heading, table, marked, list, link, blockquote, thinking, pullquote, details, map, doc, fmtRich, bold, italic, spoiler, underline, strike, code, sub, sup, br, unsafeRawInline, email, phone, userMention, emoji, dateTime, anchorLink, reference, footer, divider, anchor, photo, video, animation, paragraph, audio, tgButton, voice, collage, slideshow } from './rich';  
-import type { RichDocument } from './rich';  
+
 import TelegramBot from 'node-telegram-bot-api';  
 import { runExample } from './example';  
   
@@ -673,7 +672,8 @@ bot.on('polling_error', (err) => console.error('polling_error:', err));
 ```
 ## `example files`
 ```ts
-
+import { escapeText, pre, heading, table, marked, list, link, blockquote, thinking, pullquote, details, map, doc, fmtRich, bold, italic, spoiler, underline, strike, code, sub, sup, br, unsafeRawInline, email, phone, userMention, emoji, dateTime, anchorLink, reference, footer, divider, anchor, photo, video, animation, paragraph, audio, tgButton, voice, collage, slideshow } from './rich';  
+import type { RichDocument } from './rich';  
 export function buildExampleDocument(): RichDocument {  
   return doc(  
 
