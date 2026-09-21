@@ -244,12 +244,12 @@ export function blockquote(content: Inline | BlockContent, credit?: Inline): Blo
     { children },
   );
 }
-export function thinking(content: BlockContent | BlockContent[]): BlockNode {  
+export function thinking(content: Inline | BlockContent | BlockContent[]): BlockNode {  
   const children = Array.isArray(content) ? content : [content];  
   return {  
     [KIND]: 'block', // samakan dengan discriminator BlockNode builder lain  
     render(): string {  
-      return `<tg-thinking>${renderChildren(children)}</tg-thinking>`;  
+      return `<tg-thinking>${renderFlow(children as any)}</tg-thinking>`;  
     },  
   };  
 }
@@ -335,6 +335,7 @@ export type TableCellInput = Inline | TableCell;
 export interface TableOptions {
   bordered?: boolean;
   striped?: boolean;
+  compact?: boolean;
   caption?: Inline;
 }
 function isTableCell(v: any): v is TableCell {
